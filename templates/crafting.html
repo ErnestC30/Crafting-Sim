@@ -1,13 +1,27 @@
 {% extends "base.html" %}
 {% block title %}Crafting{% endblock %}
+{% block head %} 
+<script src="{{ url_for('static', filename='craft_equipment.js') }}"> </script>
+{% endblock %}
 {% block content %}
 <!-- 
 Things to do:
 Picture? that shows equipment type
-New Equip button: randomly generate 4 stats of given stat range
+New Equip/craft button: randomly generate 4 stats of given stat range
 Show stats
 Upgrade button: add to random stat at given stat range
 Save button: store the item and stats into database
+Sessions to hold stats through refreshes?
+JAVASCRIPT TO HANDLE THE CRAFTING PART??
 -->
-<h1>Epic Crafting goes here AYAYAYAYAYAYA</h1>
+<h1>Epic Crafting Time</h1>
+<button type="button" class="btn btn-dark" onclick="craft()">New Equipment</button>
+<p id="display_type"></p>
+<p id='tester'></p>
+<ul id='stats'>
+    <li id='stat0'></li>
+    <li id='stat1'></li>
+    <li id='stat2'></li>
+    <li id='stat3'></li>
+</ul>
 {% endblock %}

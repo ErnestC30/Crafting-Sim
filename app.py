@@ -1,6 +1,6 @@
 from flask import Flask, redirect, url_for, render_template
 
-#Use bootstrap to handle CSS/JS part?, SQLAlchemy for database
+#Use bootstrap to handle CSS/JS part?, SQLAlchemy for database, AJAX/JQuery for update info?
 
 app = Flask(__name__)
 
@@ -12,6 +12,7 @@ def home():
 @app.route('/crafting')
 def crafting():
     return render_template("crafting.html")
+    
 
 @app.route('/crafts')
 def crafts():
