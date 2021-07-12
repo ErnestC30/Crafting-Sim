@@ -115,7 +115,12 @@ function craft(){
 
     for (i=0; i<stats.length; i++) {
         stat_id = 'stat' + i.toString()
-        document.getElementById(stat_id).innerHTML = stats[i].statType + ' ----> ' + stats[i].value;
+        console.log(stats[i].statType)
+        if (stats[i].statType.endsWith('%') || stats[i].statType == 'critc' || stats[i].statType == 'critd' || stats[i].statType == 'eff' || stats[i].statType == 'effres'){
+            document.getElementById(stat_id).innerHTML = stats[i].statType + ' ----> ' + stats[i].value + '%';
+        } else {
+            document.getElementById(stat_id).innerHTML = stats[i].statType + ' ----> ' + stats[i].value;
+        }
     }
 }
 
