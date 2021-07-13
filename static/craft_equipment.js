@@ -1,3 +1,5 @@
+//Create an equipment object and modify its stats.
+
 class Equipment {
     constructor(rarity='epic') {
         let typePool = ['Weapon', 'Helmet', 'Body Armor', 'Necklace', 'Ring', 'Boot'];
@@ -18,7 +20,7 @@ class Equipment {
                 statPool = ['Attack %', 'Health %', 'Health', 'Speed', 'Critical Chance %', 'Critical Damage %', 'Effectiveness', 'Effect Resistance'];
                 for(let i=0; i < numStats; i++){
                     stats[i] = new Stat(statPool);
-                    //Remove the used stat from possible stat pool
+                    //Remove the used stat from possible stat pool to prevent duplicate
                     usedStatIndex = statPool.indexOf(stats[i].statType); 
                     statPool.splice(usedStatIndex, 1); 
                 }
@@ -128,28 +130,35 @@ function craft(){
     //Generate a new Equipment object and display stats to HTML
     equip = new Equipment();
     stats = equip.getStats();
+    //CHANGE THIS TO SHOW AN ICON OF EQUIP TYPE INSTEAD
     document.getElementById('display_type').innerHTML = equip.getType();
 
     for (i=0; i<stats.length; i++) {
         equip.displayStat(i)
     }
+
+    document.getElementById('typeEnhancement').innerHTML = '&nbsp;'
+    document.getElementById('numEnhancement').innerHTML = 'Equipment has been enhanced 0 times.'
 }
 
 function enhance(){
     //Increases the value of a randomly chosen stat by its possible range of values.
     //Maximum number of enhances is 5.
-    if (equip.numOfEnhance == 5) {
-        document.getElementById('enhancement').innerHTML = 'This equipment is already at max enhancement!'
-    } else {
-        let randStat;
-        randStat = Math.floor(Math.random() * 4)
-        equip.stats[randStat].value += equip.stats[randStat].addValue()
-        equip.numOfEnhance += 1
-        equip.displayStat(randStat)
-        document.getElementById('typeEnhancement').innerHTML = equip.stats[randStat].statType + ' has been enhanced.'
-        document.getElementById('numEnhancement').innerHTML = 'Equipment has been enhanced ' + equip.numOfEnhance.toString() + ' times.'
+    try {
+        if (equip.numOfEnhance == 5) {
+            document.getElementById('numEnhancement').innerHTML = 'This equipment is already at max enhancement!';
+        } else {
+            let randStat;
+            randStat = Math.floor(Math.random() * 4)
+            equip.stats[randStat].value += equip.stats[randStat].addValue()
+            equip.numOfEnhance += 1
+            equip.displayStat(randStat)
+            document.getElementById('typeEnhancement').innerHTML = equip.stats[randStat].statType + ' has been enhanced.'
+            document.getElementById('numEnhancement').innerHTML = 'Equipment has been enhanced ' + equip.numOfEnhance.toString() + ' times.'
+        }
+    } catch {
+        console.log("Equipment has not been crafted yet.")
     }
-
 }
 
 /*

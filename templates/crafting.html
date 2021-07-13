@@ -2,6 +2,7 @@
 {% block title %}Crafting{% endblock %}
 {% block head %} 
 <script src="{{ url_for('static', filename='craft_equipment.js') }}"> </script>
+<script src="{{ url_for('static', filename='save_equipment.js') }}"> </script>
 {% endblock %}
 {% block content %}
 <!-- 
@@ -18,6 +19,7 @@ JAVASCRIPT TO HANDLE THE CRAFTING PART??
 <!--Create a new equipment object when the 'New Equipment' button is clicked.-->
 <button type="button" class="btn btn-dark" onclick="craft()">New Equipment</button>
 <p id="display_type">Equipment Type</p>
+<!--Table to display stats and values.-->
 <table class="table table-striped table-dark">
     <thead>
       <tr>
@@ -48,4 +50,9 @@ JAVASCRIPT TO HANDLE THE CRAFTING PART??
 <p id='numEnhancement'>Create an equipment before enhancement</p>
 <!--Upgrade the equipment object when 'Enhance' button is clicked.-->
 <button type="button" class="btn btn-secondary" onclick="enhance()">Enhance</button>
+<!--Save the equipment into database-->
+<!--NOTE:Try and make the button 'greyed out' when not maxed equip, do nothing when not max equiped too.-->
+<form method="POST">
+  <button type="button" class="btn btn-success" onclick="save()">Save Craft</button>
+</form>
 {% endblock %}
