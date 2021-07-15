@@ -74,13 +74,13 @@ class Equipment {
 class Stat {
     //Create array of stat objects with stat type and value
     /* Ranges:
-           Attack%/Defense %/Health %/eff/Effect Resistance -> 4%-8%
-           Critical Chance %                                -> 3%-5%
-           Critical Damage %                                -> 4%-7%
-           Speed                                            -> 2-4
-           Attack                                           -> 25-50
-           Health                                           -> 150-200
-           Defense                                          -> 25-35
+           Attack%/Defense %/Health %/Eff/Effect Resistance -> 4%-8%
+           Critical Chance %                                 -> 3%-5%
+           Critical Damage %                                 -> 4%-7%
+           Speed                                             -> 2-4
+           Attack                                            -> 25-50
+           Health                                            -> 150-200
+           Defense                                           -> 25-35
     */
     constructor(statPool){
         this.statType = statPool[Math.floor(Math.random() * statPool.length)];
