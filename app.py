@@ -10,6 +10,7 @@ app.config['SQLALCHEMY_TRACK_MODIFICATIONS'] = False
 db = SQLAlchemy(app)
 
 class equipment(db.Model):
+    #equipment Class creates a row in table for the given equip
     id   = db.Column('id', db.Integer, primary_key=True)
     type = db.Column('Type', db.String(20))
     atkP = db.Column('Atk%', db.Integer, default=0)
@@ -25,9 +26,9 @@ class equipment(db.Model):
     effR = db.Column('EffRes', db.Integer, default=0)
     
     def __init__(self, equip):
+        #Goes through the equip object and stores the type and stats into the database.
         self.type = equip['type']
         for stat in equip['stats']:
-            #NEED TO USE stat['whatever'] INSTEAD OF stat.whatever??
             if stat['statType'] == 'Attack %':
                 self.atkP = stat['value']
             elif stat['statType'] == 'Attack':
@@ -51,6 +52,50 @@ class equipment(db.Model):
             else: 
                 self.effR = stat['value']
 
+    #Convert stats into dictionary format to be jsonify'd.
+    def toJson(self): 
+        return {
+            'type': self.type,
+            'atkP': self.atkP,
+            'atkF': self.atkF,
+            'defP': self.defP,
+            'defF': self.defF,
+            'hpP' : self.hpP,
+            'hpF' : self.hpF,
+            'criC': self.criC,
+            'criD': self.criD,
+            'spd' : self.spd,
+            'eff' : self.eff,
+            'effR': self.effR
+        }
+
+    #Returns the given attribute call for equipment. 
+    def getAttribute(attr):
+        if attr == 'type':
+            return equipment.type
+        elif attr == 'atkP':
+            return equipment.atkP
+        elif attr == 'atkF':
+            return equipment.atkF
+        elif attr == 'defP':
+            return equipment.defP
+        elif attr == 'defF':
+            return equipment.defF
+        elif attr == 'hpP':
+            return equipment.hpP
+        elif attr == 'hpF':
+            return equipment.hpF
+        elif attr == 'criC':
+            return equipment.criC
+        elif attr == 'criD':
+            return equipment.criD
+        elif attr == 'spd':
+            return equipment.spd
+        elif attr == 'eff':
+            return equipment.eff
+        else: 
+            return equipment.effR
+        
 
 @app.route('/')
 @app.route('/home')
@@ -63,7 +108,7 @@ def crafting():
         print("Something recieved.")
         #Retrieve the equipment JSON file and parse into object notation.
         equip = request.get_json()
-        print(equip)
+
         #Store the equipment information into the database.
         equipDB = equipment(equip)
         db.session.add(equipDB)
@@ -73,9 +118,22 @@ def crafting():
     else:
         return render_template("crafting.html")
     
-@app.route('/crafts')
+@app.route('/crafts', methods=["POST", "GET"])
 def crafts():
-    return render_template("crafts.html")
+
+    saved_equips = equipment.query.all()
+
+    if request.method == "POST":
+        colType = request.get_json()['sortType']
+        equips = equipment.query.order_by(equipment.getAttribute(colType)).all()
+        ordered_equips = []
+        for equip in equips:
+            ordered_equips.append(equip.toJson())
+        
+        return jsonify(ordered_equips)
+        
+
+    return render_template("crafts.html", saved_equips=saved_equips)
 
 if __name__ == "__main__":
     db.create_all()

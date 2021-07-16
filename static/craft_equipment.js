@@ -7,6 +7,7 @@ class Equipment {
         this.rarity = rarity
         this.stats = this.initializeStats(this.rarity, this.type)
         this.numOfEnhance = 0
+        this.saved = false
     }
 
     initializeStats(rarity, type){

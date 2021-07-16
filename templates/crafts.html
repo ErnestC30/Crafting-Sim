@@ -1,5 +1,88 @@
 {% extends "base.html" %}
 {% block title %} {% endblock %}
+{% block head %}
+<script src="{{ url_for('static', filename='crafts.js') }}"> </script>
+{% endblock %}
 {% block content%}
-<h1>View previous crafts here</h1>
+<table class='table table-striped table-dark' id='craftTable'>
+    <thead>
+        <tr>
+            <th>Type</th>
+            <th scope="col" onclick="colSort('atkP')">Atk%</th>
+            <th scope="col">Atk</th>
+            <th scope="col">Def%</th>
+            <th scope="col">Def</th>
+            <th scope="col">Hp%</th>
+            <th scope="col">Hp</th>
+            <th scope="col">CritC</th>
+            <th scope="col">CritD</th>
+            <th scope="col">Spd</th>
+            <th scope="col">Eff</th>
+            <th scope="col">EffRes</th>
+        </tr>
+    </thead>
+    <tbody>
+        <!--Iterate over each equip and display the stats or '-' if value is 0 -->
+        {% for equip in saved_equips %}
+        <tr>
+            <td>{{ equip.type }}</th>
+            {% if equip.atkP %}
+                <td>{{ equip.atkP }}</th>
+            {% else %}
+                <td>-</td>
+            {% endif %}
+            {% if equip.atkF %}
+                <td>{{ equip.atkF }}</th>
+            {% else %}
+                <td>-</td>
+            {% endif %}
+            {% if equip.defP %}
+                <td>{{ equip.defP }}</th>
+            {% else %}
+                <td>-</td>
+            {% endif %}
+            {% if equip.defF %}
+                <td>{{ equip.defF }}</th>
+            {% else %}
+                <td>-</td>
+            {% endif %}
+            {% if equip.hpP %}
+                <td>{{ equip.hpP }}</th>
+            {% else %}
+                <td>-</td>
+            {% endif %}
+            {% if equip.hpF %}
+                <td>{{ equip.hpF }}</th>
+            {% else %}
+                <td>-</td>
+            {% endif %}
+            {% if equip.criC%}
+                <td>{{ equip.criC }}</th>
+            {% else %}
+                <td>-</td>
+            {% endif %}
+            {% if equip.criD %}
+                <td>{{ equip.criD }}</th>
+            {% else %}
+                <td>-</td>
+            {% endif %}
+            {% if equip.spd %}
+                <td>{{ equip.spd }}</th>
+            {% else %}
+                <td>-</td>
+            {% endif %}
+            {% if equip.eff %}
+                <td>{{ equip.eff }}</th>
+            {% else %}
+                <td>-</td>
+            {% endif %}
+            {% if equip.effR %}
+                <td>{{ equip.effR }}</th>
+            {% else %}
+                <td>-</td>
+            {% endif %}
+        </tr>
+        {% endfor %}
+    </tbody>
+</table>
 {% endblock %}
