@@ -54,6 +54,7 @@ class equipment(db.Model):
     #Convert stats into dictionary format to be jsonify'd.
     def toJson(self): 
         return {
+            'id':   self.id,
             'type': self.type,
             'atkP': self.atkP,
             'atkF': self.atkF,
@@ -121,21 +122,31 @@ def crafting():
 def crafts():
 
     saved_equips = equipment.query.all()
+    ordered_equips = []
 
     if request.method == "POST":
-        colType = request.get_json()['sortType']
-        sortType = request.get_json()['sortBy']
-        if sortType == 'des':
-            equips = equipment.query.order_by(equipment.getAttribute(colType).desc()).all()
-        elif sortType == 'asc':
-            equips = equipment.query.order_by(equipment.getAttribute(colType).asc()).all()
-        ordered_equips = []
+
+        #Removes equipment with given rowID from the database.
+        if 'remove' in request.get_json()['methods']:
+            rowID = request.get_json()['rowToDelete']
+            equipment.query.filter(equipment.id == rowID).delete()
+            db.session.commit()
+            equips = equipment.query.all()
+            
+        #Sorts the table in ascending/descending order.
+        if 'sort' in request.get_json()['methods']:
+            colType = request.get_json()['sortType']
+            sortType = request.get_json()['sortBy']
+            if sortType == 'des':
+                equips = equipment.query.order_by(equipment.getAttribute(colType).desc()).all()
+            elif sortType == 'asc':
+                equips = equipment.query.order_by(equipment.getAttribute(colType).asc()).all()
+
+        #Sends the database as a JSON object containing list of equipment to crafts.js to update HTML table.
         for equip in equips:
             ordered_equips.append(equip.toJson())
-        
-        #Sends the database as a JSON object containing list of equipment to crafts.js to update HTML table.
         return jsonify(ordered_equips)
-        
+            
     return render_template("crafts.html", saved_equips=saved_equips)
 
 if __name__ == "__main__":

@@ -10,8 +10,8 @@ class Equipment {
         this.saved = false
     }
 
+    //Create the initial stats and returns the stats as an array of Stat objects
     initializeStats(rarity, type){
-        //Create the initial stats and returns the stats as an array of Stat objects
         let numStats = 4 //Assuming epic gear
         let stats = [];
         let statPool;
@@ -161,9 +161,3 @@ function enhance(){
         console.log("Equipment has not been crafted yet.")
     }
 }
-
-/*
-equip = new Equipment();
-console.log(equip.getType());
-console.log(equip.getStats());
-*/

@@ -1,5 +1,6 @@
-value = 'hello';
+let value = 0
+let test 
 
-value += 1;
+test = value ? 'hello' : 'yo'
 
-console.log(value)
+console.log(test)

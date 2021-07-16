@@ -19,12 +19,13 @@
             <th scope="col" onclick="colSort('spd')" >Spd</th>
             <th scope="col" onclick="colSort('eff')" >Eff</th>
             <th scope="col" onclick="colSort('effR')">EffRes</th>
+            <th>&nbsp;</th>
         </tr>
     </thead>
     <tbody>
         <!--Iterate over each equip and display the stats or '-' if value is 0 -->
         {% for equip in saved_equips %}
-        <tr>
+        <tr id="{{ equip.id }}">
             <td>{{ equip.type }}</th>
             {% if equip.atkP %}
                 <td>{{ equip.atkP }}</th>
@@ -81,6 +82,7 @@
             {% else %}
                 <td>-</td>
             {% endif %}
+            <td><button type="button" class="btn btn-secondary" onclick="remove('{{equip.id}}')">Delete</button></td>
         </tr>
         {% endfor %}
     </tbody>
