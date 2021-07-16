@@ -1,7 +1,6 @@
 from flask import Flask, redirect, url_for, render_template, jsonify, request
 from flask_sqlalchemy import SQLAlchemy
 
-#Use bootstrap to handle CSS/JS part?, SQLAlchemy for database, AJAX/JQuery for update info?
 
 app = Flask(__name__)
 app.config['SQLALCHEMY_DATABASE_URI'] = 'sqlite:///equip.sqlite3'
@@ -9,8 +8,8 @@ app.config['SQLALCHEMY_TRACK_MODIFICATIONS'] = False
 
 db = SQLAlchemy(app)
 
+#equipment Class creates a row in table for the given equip
 class equipment(db.Model):
-    #equipment Class creates a row in table for the given equip
     id   = db.Column('id', db.Integer, primary_key=True)
     type = db.Column('Type', db.String(20))
     atkP = db.Column('Atk%', db.Integer, default=0)
@@ -25,8 +24,8 @@ class equipment(db.Model):
     eff  = db.Column('Eff', db.Integer, default=0)
     effR = db.Column('EffRes', db.Integer, default=0)
     
+    #Goes through the equip object and stores the type and stats into the database.
     def __init__(self, equip):
-        #Goes through the equip object and stores the type and stats into the database.
         self.type = equip['type']
         for stat in equip['stats']:
             if stat['statType'] == 'Attack %':
@@ -105,7 +104,7 @@ def home():
 @app.route('/crafting', methods=["POST", "GET"])
 def crafting():
     if request.method == "POST":
-        print("Something recieved.")
+        print("Equipment information recieved.")
         #Retrieve the equipment JSON file and parse into object notation.
         equip = request.get_json()
 
@@ -113,7 +112,7 @@ def crafting():
         equipDB = equipment(equip)
         db.session.add(equipDB)
         db.session.commit()
-        print('Something added to database.')
+        print('Equipment information added to database.')
         return 'OK', 200
     else:
         return render_template("crafting.html")
@@ -125,14 +124,18 @@ def crafts():
 
     if request.method == "POST":
         colType = request.get_json()['sortType']
-        equips = equipment.query.order_by(equipment.getAttribute(colType)).all()
+        sortType = request.get_json()['sortBy']
+        if sortType == 'des':
+            equips = equipment.query.order_by(equipment.getAttribute(colType).desc()).all()
+        elif sortType == 'asc':
+            equips = equipment.query.order_by(equipment.getAttribute(colType).asc()).all()
         ordered_equips = []
         for equip in equips:
             ordered_equips.append(equip.toJson())
         
+        #Sends the database as a JSON object containing list of equipment to crafts.js to update HTML table.
         return jsonify(ordered_equips)
         
-
     return render_template("crafts.html", saved_equips=saved_equips)
 
 if __name__ == "__main__":

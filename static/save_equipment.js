@@ -4,7 +4,7 @@ function save(){
     if (!equip.saved) {
         //Only save max upgraded equips
         if (equip.numOfEnhance == 5) { 
-        //FetchAPI used to send data asynchronously 
+        //FetchAPI used to send the equip object data as a JSON object
             fetch('/crafting', {
                 method: 'POST',
                 headers: {

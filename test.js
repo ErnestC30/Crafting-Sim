@@ -1,3 +1,5 @@
-for (i=0;i<4;i++){
-    console.log('stat' + i.toString())
-}
+value = 'hello';
+
+value += 1;
+
+console.log(value)

@@ -1,31 +1,45 @@
-function colSort(col) {
-    //Sorts and updates the table by chosen column.
+storage = window.sessionStorage;
 
-    //Sends to app.py which column of table to sort by.
+function colSort(col) {
+    //Sorts and updates the table by chosen column. col -> statType
+
+    //Tracks whether the table should sort by descending or ascending value for given col.
+    if(col in sessionStorage) {
+        //descending -> largest value at top, ascending -> largest value at bottom
+        if (sessionStorage.getItem(col) == 'des') {
+            sessionStorage.setItem(col, 'asc');
+        } else {
+            sessionStorage.setItem(col, 'des');
+        }
+    } else {
+        sessionStorage.setItem(col, 'des');
+    }
+
+    //Sends to app.py a JSON object with properties sortType and sortBy for ordering database.
     fetch('/crafts', {
         method: 'POST',
         headers: {
             'Content-Type': 'application/json'
         },
-        body: JSON.stringify({sortType: col})
+        body: JSON.stringify({sortType: col,
+                              sortBy: sessionStorage.getItem(col)
+                            })
     })   
         .then(response => response.json())
         //Recieves a Response object from app.py containing an array of data from each row.
         .then(data => {
             //Change each HTML element to the new value.
-            console.log(data)
             updateTable(data, 'craftTable')
-            console.log('Data Sent.');
+            console.log('Data sent to app.py');
         })
         .catch((error) => {
             console.error('Error:', error);
         });
 }
 
+//Updates the HTML table with the given data
 function updateTable(data, tableID) {
-    //Updates the HTML table with the given data
     table = document.getElementById(tableID)
-    console.log('Data length is ' + data.length)
     for(i=0;i<data.length;i++){
         //For each object (row)... update HTML
         table.rows[i+1].cells[0].innerHTML = data[i]['type']
