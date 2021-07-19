@@ -23,6 +23,7 @@ class equipment(db.Model):
     spd  = db.Column('Spd', db.Integer, default=0)
     eff  = db.Column('Eff', db.Integer, default=0)
     effR = db.Column('EffRes', db.Integer, default=0)
+    gs   = db.Column('Score', db.Integer, default=0)
     
     #Goes through the equip object and stores the type and stats into the database.
     def __init__(self, equip):
@@ -50,6 +51,7 @@ class equipment(db.Model):
                 self.eff = stat['value']
             else: 
                 self.effR = stat['value']
+        self.gs = equip['gearScore']
 
     #Convert stats into dictionary format to be jsonify'd.
     def toJson(self): 
@@ -66,7 +68,8 @@ class equipment(db.Model):
             'criD': self.criD,
             'spd' : self.spd,
             'eff' : self.eff,
-            'effR': self.effR
+            'effR': self.effR,
+            'gs'  : self.gs
         }
 
     #Returns the given attribute call for equipment. 
@@ -93,8 +96,10 @@ class equipment(db.Model):
             return equipment.spd
         elif attr == 'eff':
             return equipment.eff
-        else: 
+        elif attr == 'effR':
             return equipment.effR
+        else:
+            return equipment.gs
         
 
 @app.route('/')

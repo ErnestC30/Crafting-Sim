@@ -4,6 +4,7 @@
 <script src="{{ url_for('static', filename='crafts.js') }}"> </script>
 {% endblock %}
 {% block content%}
+<!--Initial template of the crafts page.-->
 <table class='table table-striped table-dark' id='craftTable'>
     <thead>
         <tr>
@@ -19,6 +20,7 @@
             <th scope="col" onclick="colSort('spd')" >Spd</th>
             <th scope="col" onclick="colSort('eff')" >Eff</th>
             <th scope="col" onclick="colSort('effR')">EffRes</th>
+            <th scope="col" onclick="colSort('gs')">Score</th>
             <th>&nbsp;</th>
         </tr>
     </thead>
@@ -82,6 +84,7 @@
             {% else %}
                 <td>-</td>
             {% endif %}
+            <td>{{ equip.gs }}</td>
             <td><button type="button" class="btn btn-secondary" onclick="remove('{{equip.id}}')">Delete</button></td>
         </tr>
         {% endfor %}

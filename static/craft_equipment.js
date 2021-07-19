@@ -8,6 +8,7 @@ class Equipment {
         this.stats = this.initializeStats(this.rarity, this.type)
         this.numOfEnhance = 0
         this.saved = false
+        this.gearScore = 0;
     }
 
     //Create the initial stats and returns the stats as an array of Stat objects
@@ -48,6 +49,53 @@ class Equipment {
                 }
         }
         return stats;
+    }
+
+    //Sets the overall gear score of the equipment to gearScore attribute.
+    setGearScore() {
+        //Calculated using the following rules:
+        /*
+        Score = Attack %
+        + Defense %
+        + Hp %
+        + Effectiveness
+        + Effect Resistance
+        + Speed * (8/4)
+        + Crit Damage * (8/7)
+        + Crit Chance * (8/5)
+        + Flat Attack * 3.46 / 39
+        + Flat Defense * 4.99 / 31
+        + Flat Hp * 3.09 / 174 
+        */
+        let gs = 0;
+        let score;
+        this.stats.forEach(stat => {
+            switch(stat.statType) {
+                case 'Attack %':case 'Health %':case 'Defense %':case 'Effectiveness':case 'Effect Resistance':
+                score = stat.value
+                break;
+            case 'Critical Chance %':
+                score = stat.value * (8/5)
+                break;
+            case 'Critical Damage %':
+                score = stat.value * (8/7)
+                break;
+            case 'Speed':
+                score = stat.value * (8/4)
+                break;
+            case 'Attack':
+                score = stat.value *  3.46 / 39
+                break;
+            case 'Health':
+                score = stat.value * 3.09 / 174
+                break;
+            case 'Defense':
+                score = stat.value * 4.99 / 31
+                break;
+            }
+            gs += score;
+        })
+        this.gearScore = Math.floor(gs)
     }
 
     getType() {
@@ -131,8 +179,29 @@ function craft(){
     //Generate a new Equipment object and display stats to HTML
     equip = new Equipment();
     stats = equip.getStats();
-    //CHANGE THIS TO SHOW AN ICON OF EQUIP TYPE INSTEAD
-    document.getElementById('display_type').innerHTML = equip.getType();
+    //Display image of equipment type
+    let equipImg = document.createElement('img');
+    switch(equip.getType()){
+        case 'Weapon':
+            equipImg.src = '../static/images/weapon.png'
+            break;
+        case 'Helmet':
+            equipImg.src = '../static/images/helmet.png'
+            break;
+        case 'Body Armor':
+            equipImg.src = '../static/images/body_armor.png'
+            break;
+        case 'Necklace':
+            equipImg.src = '../static/images/necklace.png'
+            break;
+        case 'Ring':
+            equipImg.src = '../static/images/ring.png'
+            break;
+        case 'Boot':
+            equipImg.src = '../static/images/boot.png'
+            break;
+    }
+    document.getElementById('display_type').src = equipImg.src
 
     for (i=0; i<stats.length; i++) {
         equip.displayStat(i)
@@ -147,7 +216,7 @@ function enhance(){
     //Maximum number of enhances is 5.
     try {
         if (equip.numOfEnhance == 5) {
-            document.getElementById('numEnhancement').innerHTML = 'This equipment is already at max enhancement!';
+            document.getElementById('numEnhancement').innerHTML = 'This equipment is already at max enhancement! The gear score is: ' + equip.gearScore;
         } else {
             let randStat;
             randStat = Math.floor(Math.random() * 4)
@@ -155,7 +224,12 @@ function enhance(){
             equip.numOfEnhance += 1
             equip.displayStat(randStat)
             document.getElementById('typeEnhancement').innerHTML = equip.stats[randStat].statType + ' has been enhanced.'
+            if (equip.numOfEnhance == 5) {
+                equip.setGearScore()
+                document.getElementById('numEnhancement').innerHTML = 'Equipment is fully enhanced. The gear score is: ' + equip.gearScore
+            } else {
             document.getElementById('numEnhancement').innerHTML = 'Equipment has been enhanced ' + equip.numOfEnhance.toString() + ' times.'
+            }
         }
     } catch {
         console.log("Equipment has not been crafted yet.")

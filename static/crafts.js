@@ -100,9 +100,10 @@ function updateTable(data, tableID, deleteRow='no') {
         table.rows[i+1].cells[9].innerHTML  = data[i]['spd']  ? data[i]['spd']  : '-'
         table.rows[i+1].cells[10].innerHTML = data[i]['eff']  ? data[i]['eff']  : '-'
         table.rows[i+1].cells[11].innerHTML = data[i]['effR'] ? data[i]['effR'] : '-'
+        table.rows[i+1].cells[12].innerHTML = data[i]['gs']
         //Tracks the equipment ID for the row.
         rowID = "remove('" + data[i]['id'] + "')" 
-        table.rows[i+1].cells[12].firstChild.setAttribute('onclick', rowID)
+        table.rows[i+1].cells[13].firstChild.setAttribute('onclick', rowID)
     }
     //Removes the empty row if an item is deleted
     if(deleteRow == 'delete'){
