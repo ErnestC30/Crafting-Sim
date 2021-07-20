@@ -3,6 +3,7 @@
 {% block head %} 
 <script src="{{ url_for('static', filename='craft_equipment.js') }}"> </script>
 <script src="{{ url_for('static', filename='save_equipment.js') }}"> </script>
+<link rel="stylesheet" href="{{ url_for('static', filename='craft_equipment.css') }}">
 {% endblock %}
 {% block content %}
 <!-- 
@@ -16,44 +17,52 @@ Sessions to hold stats through refreshes?
 JAVASCRIPT TO HANDLE THE CRAFTING PART??
 -->
 <h1>Epic Crafting Time</h1>
-<!--Create a new equipment object when the 'New Equipment' button is clicked.-->
-<button type="button" class="btn btn-dark" onclick="craft()">New Equipment</button>
-<p></p>
-<img id="display_type" src="../static/images/empty.PNG" alt='Equipment Type'>
+<div id="image">
+  <img id="display_type" src="../static/images/empty.PNG" alt='Equipment Type'>
+</div>
 <!--Table to display stats and values.-->
 <table class="table table-striped table-dark">
-    <thead>
-      <tr>
-        <th scope="col">Stat Type</th>
-        <th scope="col">Value</th>
-      </tr>
-    </thead>
-    <tbody>
-      <tr>
-        <td id='stat0'></td>
-        <td id='stat0val'>&nbsp;</td>
-      </tr>
-      <tr>
-        <td id='stat1'>&nbsp;</td>
-        <td id='stat1val'>&nbsp;</td>
-      </tr>
-      <tr>
-        <td id='stat2'>&nbsp;</td>
-        <td id='stat2val'>&nbsp;</td>
-      </tr>
-      <tr>
-        <td id='stat3'>&nbsp;</td>
-        <td id='stat3val'>&nbsp;</td>
-      </tr>
-    </tbody>
-  </table>
+  <colgroup>
+    <col width=25%>
+    <col width=75%>
+  </colgroup>
+  <thead>
+    <tr>
+      <th scope="col">Stat Type</th>
+      <th scope="col">Value</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td id='stat0'></td>
+      <td id='stat0val'>&nbsp;</td>
+    </tr>
+    <tr>
+      <td id='stat1'>&nbsp;</td>
+      <td id='stat1val'>&nbsp;</td>
+    </tr>
+    <tr>
+      <td id='stat2'>&nbsp;</td>
+      <td id='stat2val'>&nbsp;</td>
+    </tr>
+    <tr>
+      <td id='stat3'>&nbsp;</td>
+      <td id='stat3val'>&nbsp;</td>
+    </tr>
+  </tbody>
+</table>
 <p id='typeEnhancement'>&nbsp;</p>
 <p id='numEnhancement'>Create an equipment before enhancement</p>
-<!--Upgrade the equipment object when 'Enhance' button is clicked.-->
-<button type="button" class="btn btn-secondary" onclick="enhance()">Enhance</button>
-<!--Save the equipment into database-->
-<!--NOTE:Try and make the button 'greyed out' when not maxed equip, do nothing when not max equiped too.-->
-<form method="POST">
-  <button type="button" class="btn btn-success" onclick="save()">Save Craft</button>
-</form>
+
+<div class="buttons">
+  <!--Create a new equipment object when the 'New Equipment' button is clicked.-->
+  <button type="button" class="btn btn-dark" onclick="craft()">New Equipment</button>
+  <!--Upgrade the equipment object when 'Enhance' button is clicked.-->
+  <button type="button" class="btn btn-secondary" onclick="enhance()">Enhance</button>
+  <!--Save the equipment into database-->
+  <!--NOTE:Try and make the button 'greyed out' when not maxed equip, do nothing when not max equiped too.-->
+  <form method="POST">
+    <button type="button" class="btn btn-success" onclick="save()">Save Craft</button>
+  </form>
+</div>
 {% endblock %}

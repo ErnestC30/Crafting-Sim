@@ -1,0 +1,30 @@
+table {
+    overflow: scroll;
+    margin-top: 5px;
+}
+
+td, th {
+    text-align: center;
+    vertical-align: center;
+}
+
+td {
+    vertical-align: baseline;
+}
+
+.typecol {
+    text-align: left;
+    margin-left: 10px;
+}
+
+.table-dark {
+    --bs-table-bg: #212529;
+    --bs-table-striped-bg: #2c3034;
+    --bs-table-striped-color: #fff;
+    --bs-table-active-bg: #373b3e;
+    --bs-table-active-color: #fff;
+    --bs-table-hover-bg: #28422f;
+    --bs-table-hover-color: #fff;
+    color: #fff;
+    border-color: #373b3e;
+}
