@@ -154,6 +154,14 @@ def crafts():
             
     return render_template("crafts.html", saved_equips=saved_equips)
 
+@app.route('/login', methods=["POST"])
+def login():
+    pass
+
+@app.route('/register', methods=["POST"])
+def register():
+    pass
+
 if __name__ == "__main__":
     db.create_all()
     app.run(debug=True)
