@@ -1,0 +1,20 @@
+{% extends "base.html" %} 
+{% block title %}Register{% endblock %}
+{% block head %} 
+{% endblock %}
+
+{% block content %}
+<p>Log in to your account.</p>
+
+<form method="POST">
+    <div class="form-group">
+        <label for="name">Username:</label>
+        <input type="text" class="form-control" id="name" name="name" placeholder="Enter username"><br> 
+    </div>
+    <div class="form-group">
+        <label for="pw">Password:</label>
+        <input type="password" class="form-control" id="pw" name="pw" placeholder="Enter password"><br> 
+    </div>
+    <button type="submit" class="btn btn-primary">Submit</button>
+</form>
+{% endblock %}

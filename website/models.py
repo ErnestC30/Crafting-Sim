@@ -1,15 +1,7 @@
-from flask import Flask, redirect, url_for, render_template, jsonify, request
-from flask_sqlalchemy import SQLAlchemy
-
-
-app = Flask(__name__)
-app.config['SQLALCHEMY_DATABASE_URI'] = 'sqlite:///equip.sqlite3'
-app.config['SQLALCHEMY_TRACK_MODIFICATIONS'] = False
-
-db = SQLAlchemy(app)
+from . import db
 
 #equipment Class creates a row in table for the given equip
-class equipment(db.Model):
+class EquipDB(db.Model):
     id   = db.Column('id', db.Integer, primary_key=True)
     type = db.Column('Type', db.String(20))
     atkP = db.Column('Atk%', db.Integer, default=0)
@@ -75,94 +67,32 @@ class equipment(db.Model):
     #Returns the given attribute call for equipment. 
     def getAttribute(attr):
         if attr == 'type':
-            return equipment.type
+            return EquipDB.type
         elif attr == 'atkP':
-            return equipment.atkP
+            return EquipDB.atkP
         elif attr == 'atkF':
-            return equipment.atkF
+            return EquipDB.atkF
         elif attr == 'defP':
-            return equipment.defP
+            return EquipDB.defP
         elif attr == 'defF':
-            return equipment.defF
+            return EquipDB.defF
         elif attr == 'hpP':
-            return equipment.hpP
+            return EquipDB.hpP
         elif attr == 'hpF':
-            return equipment.hpF
+            return EquipDB.hpF
         elif attr == 'criC':
-            return equipment.criC
+            return EquipDB.criC
         elif attr == 'criD':
-            return equipment.criD
+            return EquipDB.criD
         elif attr == 'spd':
-            return equipment.spd
+            return EquipDB.spd
         elif attr == 'eff':
-            return equipment.eff
+            return EquipDB.eff
         elif attr == 'effR':
-            return equipment.effR
+            return EquipDB.effR
         else:
-            return equipment.gs
+            return EquipDB.gs
         
 
-@app.route('/')
-@app.route('/home')
-def home():
-    return render_template("home.html")
 
-@app.route('/crafting', methods=["POST", "GET"])
-def crafting():
-    if request.method == "POST":
-        print("Equipment information recieved.")
-        #Retrieve the equipment JSON file and parse into object notation.
-        equip = request.get_json()
 
-        #Store the equipment information into the database.
-        equipDB = equipment(equip)
-        db.session.add(equipDB)
-        db.session.commit()
-        print('Equipment information added to database.')
-        return 'OK', 200
-    else:
-        return render_template("crafting.html")
-    
-@app.route('/crafts', methods=["POST", "GET"])
-def crafts():
-
-    saved_equips = equipment.query.all()
-    ordered_equips = []
-
-    if request.method == "POST":
-
-        #Removes equipment with given rowID from the database.
-        if 'remove' in request.get_json()['methods']:
-            rowID = request.get_json()['rowToDelete']
-            equipment.query.filter(equipment.id == rowID).delete()
-            db.session.commit()
-            equips = equipment.query.all()
-            
-        #Sorts the table in ascending/descending order.
-        if 'sort' in request.get_json()['methods']:
-            colType = request.get_json()['sortType']
-            sortType = request.get_json()['sortBy']
-            if sortType == 'des':
-                equips = equipment.query.order_by(equipment.getAttribute(colType).desc()).all()
-            elif sortType == 'asc':
-                equips = equipment.query.order_by(equipment.getAttribute(colType).asc()).all()
-
-        #Sends the database as a JSON object containing list of equipment to crafts.js to update HTML table.
-        for equip in equips:
-            ordered_equips.append(equip.toJson())
-        return jsonify(ordered_equips)
-            
-    return render_template("crafts.html", saved_equips=saved_equips)
-
-@app.route('/login', methods=["POST"])
-def login():
-    pass
-
-@app.route('/register', methods=["POST"])
-def register():
-    pass
-
-if __name__ == "__main__":
-    db.create_all()
-    app.run(debug=True)
-    

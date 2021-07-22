@@ -1,0 +1,25 @@
+{% extends "base.html" %} 
+{% block title %}Register{% endblock %}
+{% block head %} 
+{% endblock %}
+
+{% block content %}
+<p>Enter a username and password to make an account.</p>
+<p>Creating an account will let you store your crafted equipment.</p>
+
+<form method="POST" autocomplete="off">
+    <div class="form-group">
+        <label for="name">Username:</label>
+        <input type="text" class="form-control" id="name" name="name" placeholder="Enter username"><br> 
+    </div>
+    <div class="form-group">
+        <label for="pw">Password:</label>
+        <input type="password" class="form-control" id="pw" name="pw" placeholder="Enter password"><br> 
+    </div>
+    <div class="form-group">
+        <label for="pw">Confirm Password:</label>
+        <input type="password" class="form-control" id="pw2" name="pw2" placeholder="Confirm password"><br> 
+    </div>
+    <button type="submit" class="btn btn-primary">Submit</button>
+</form>
+{% endblock %}
