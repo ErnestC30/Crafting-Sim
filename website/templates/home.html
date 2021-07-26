@@ -3,4 +3,7 @@
 {% block content %} 
 <h1>Epic Crafting Simulation</h1>
 <p>Test your RNG</p>
+{% if user.is_authenticated %}
+<p>Welcome {{ user.name }}</p>
+{% endif %}
 {% endblock %}

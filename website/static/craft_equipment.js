@@ -237,13 +237,13 @@ function enhance(){
 }
 
 //Grab the equipment data, convert it to JSON, and send it back to Python for storage.
-function save(){
+function save() {
     //Prevent saving the same item ultiple times into database.
-    try{
-        if (equip.numOfEnhance == 5) { 
+    try {
+        if (equip.numOfEnhance == 5) {
             //Only save max upgraded equips
             if (!equip.saved) {
-            //FetchAPI used to send the equip object data as a JSON object
+                //FetchAPI used to send the equip object data as a JSON object
                 fetch('/crafting', {
                     method: 'POST',
                     headers: {
@@ -260,13 +260,13 @@ function save(){
                     });
                 document.getElementById('typeEnhancement').innerHTML = 'The equipment has been saved!'
             } else {
-                document.getElementById('typeEnhancement').innerHTML = 'You can only save maxed equipment!'
+                document.getElementById('typeEnhancement').innerHTML = 'Equip is already saved into database.'
             }
             equip.saved = true
         } else {
-            document.getElementById('typeEnhancement').innerHTML = 'Equip is already saved into database.'
+            document.getElementById('typeEnhancement').innerHTML = 'You can only save maxed equipment!'
         }
     } catch {
         document.getElementById('typeEnhancement').innerHTML = 'No equipment crafted yet!'
-    } 
+    }
 }

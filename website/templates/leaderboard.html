@@ -1,11 +1,11 @@
-{% extends "base.html" %}
-{% block title %}View Crafts{% endblock %}
-{% block head %}
-<script src="{{ url_for('static', filename='crafts.js') }}"> </script>
-<link rel="stylesheet" href="{{ url_for('static', filename='crafts.css') }}">
-{% endblock %}
-{% block content%}
-<!--Initial template of the crafts page.-->
+{% extends "base.html" %} 
+{% block title %}Leaderboard{% endblock %} 
+{% block head %} 
+<!--NEED NEW CSS STYLING HERE-->>
+{% endblock %} 
+{% block content %} 
+<h1>Leaderboards</h1>
+
 <table class='table table-hover table-striped table-dark' id='craftTable'>
     <thead>
         <tr>
@@ -22,7 +22,7 @@
             <th scope="col" onclick="colSort('eff')" >Eff</th>
             <th scope="col" onclick="colSort('effR')">EffRes</th>
             <th scope="col" onclick="colSort('gs')">Score</th>
-            <th>&nbsp;</th>
+            <th scope="col">Username</th>
         </tr>
     </thead>
     <tbody>
@@ -86,7 +86,7 @@
                 <td>-</td>
             {% endif %}
             <td>{{ equip.gs }}</td>
-            <td><button type="button" class="btn btn-secondary" onclick="remove('{{equip.id}}')">Delete</button></td>
+            <td>{{ equip.userName }}</td>
         </tr>
         {% endfor %}
     </tbody>

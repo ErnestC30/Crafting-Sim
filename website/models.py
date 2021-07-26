@@ -5,7 +5,8 @@ class User(db.Model, UserMixin):
     id   = db.Column('id', db.Integer, primary_key=True)
     name = db.Column('name', db.String(20))
     pw   = db.Column('pw', db.String(20))
-    #equips = db.relationship('EquipDB', backref='owner')
+    #One to many type relationship with equip
+    equips = db.relationship('EquipDB', backref='user')
 
 #equipment Class creates a row in table for the given equip
 class EquipDB(db.Model):
@@ -23,10 +24,11 @@ class EquipDB(db.Model):
     eff  = db.Column('Eff', db.Integer, default=0)
     effR = db.Column('EffRes', db.Integer, default=0)
     gs   = db.Column('Score', db.Integer, default=0)
-    #user_id = db.Column(db.Integer, db.ForeignKey('users.id'))
+    userName = db.Column(db.String(20), db.ForeignKey('user.name'))
+    date = db.Column(db.DateTime)
     
     #Goes through the equip object and stores the type and stats into the database.
-    def __init__(self, equip):
+    def __init__(self, equip, name, date):
         self.type = equip['type']
         for stat in equip['stats']:
             if stat['statType'] == 'Attack %':
@@ -52,6 +54,8 @@ class EquipDB(db.Model):
             else: 
                 self.effR = stat['value']
         self.gs = equip['gearScore']
+        self.userName = name
+        self.date = date
 
     #Convert stats into dictionary format to be jsonify'd.
     def toJson(self): 
