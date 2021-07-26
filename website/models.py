@@ -1,4 +1,11 @@
 from . import db
+from flask_login import UserMixin
+
+class User(db.Model, UserMixin):
+    id   = db.Column('id', db.Integer, primary_key=True)
+    name = db.Column('name', db.String(20))
+    pw   = db.Column('pw', db.String(20))
+    #equips = db.relationship('EquipDB', backref='owner')
 
 #equipment Class creates a row in table for the given equip
 class EquipDB(db.Model):
@@ -16,6 +23,7 @@ class EquipDB(db.Model):
     eff  = db.Column('Eff', db.Integer, default=0)
     effR = db.Column('EffRes', db.Integer, default=0)
     gs   = db.Column('Score', db.Integer, default=0)
+    #user_id = db.Column(db.Integer, db.ForeignKey('users.id'))
     
     #Goes through the equip object and stores the type and stats into the database.
     def __init__(self, equip):

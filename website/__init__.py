@@ -1,6 +1,7 @@
 from flask import Flask
 from flask_sqlalchemy import SQLAlchemy
 from os import path
+from flask_login import LoginManager
 
 db = SQLAlchemy()
 DB_NAME = "equip.sqlite3"
@@ -14,11 +15,21 @@ def create_app():
     app.config['SQLALCHEMY_TRACK_MODIFICATIONS'] = False
     db.init_app(app)
 
+
     from .views import views
     app.register_blueprint(views, url_prefix='/')
     
-    from .models import EquipDB
+    from .models import EquipDB, User
     create_database(app)
+
+    loginManager = LoginManager()
+    loginManager.login_view = 'views.login'
+    loginManager.init_app(app)
+
+    #Tracks the logged in user using flask_login module.
+    @loginManager.user_loader
+    def loadUser(id):
+        return User.query.get(int(id))
 
     return app
 

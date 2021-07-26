@@ -34,13 +34,21 @@
             <a class="nav-link active" href="/crafts">View Crafts</a>
           </li>
         </ul>
+        <!-- Right side of Nav Bar-->
         <ul class="navbar-nav ms-auto">
+          <!--Hide LogIn and Register button while logged in-->
+          {% if user.is_authenticated %}
+          <li class="nav-item">
+            <a class="nav-link active" href="/logout">Log Out</a>
+          </li>
+          {% else %}
           <li class="nav-item">
             <a class="nav-link active" href="/login">Log In</a>
           </li>
           <li class="nav-item">
             <a class="nav-link active" href="/register">Register</a>
           </li>
+          {% endif %}
         </ul>
       </div>
     </div>
