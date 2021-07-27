@@ -73,7 +73,8 @@ class EquipDB(db.Model):
             'spd' : self.spd,
             'eff' : self.eff,
             'effR': self.effR,
-            'gs'  : self.gs
+            'gs'  : self.gs,
+            'name': self.userName
         }
 
     #Returns the given attribute call for equipment. 

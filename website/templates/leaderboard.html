@@ -1,27 +1,37 @@
 {% extends "base.html" %} 
 {% block title %}Leaderboard{% endblock %} 
 {% block head %} 
-<!--NEED NEW CSS STYLING HERE-->>
+<script src="{{ url_for('static', filename='leaderboard.js') }}"> </script>
+<!--NEED NEW CSS STYLING HERE-->
 {% endblock %} 
 {% block content %} 
 <h1>Leaderboards</h1>
-
-<table class='table table-hover table-striped table-dark' id='craftTable'>
+<div class="dropend">
+    <button class="btn btn-secondary dropdown-toggle" type="button" id="dropdownMenuButton" data-bs-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+        Select Type
+    </button>
+    <div class="dropdown-menu" aria-labelledby="dropdownMenuButton">
+        <a class="dropdown-item" href=/leaderboard/daily>Daily</a>
+        <a class="dropdown-item" href=/leaderboard/overall>Overall</a>
+    </div>
+</div>
+<p></p>
+<table class='table table-hover table-striped table-dark' id='leaderboardTable'>
     <thead>
         <tr>
-            <th class='typecol' onclick="colSort('type')">Type</th>
-            <th scope="col" onclick="colSort('atkP')">Atk%</th>
-            <th scope="col" onclick="colSort('atkF')">Atk</th>
-            <th scope="col" onclick="colSort('defP')">Def%</th>
-            <th scope="col" onclick="colSort('defF')">Def</th>
-            <th scope="col" onclick="colSort('hpP')" >Hp%</th>
-            <th scope="col" onclick="colSort('hpF')" >Hp</th>
-            <th scope="col" onclick="colSort('criC')">CritC</th>
-            <th scope="col" onclick="colSort('criD')">CritD</th>
-            <th scope="col" onclick="colSort('spd')" >Spd</th>
-            <th scope="col" onclick="colSort('eff')" >Eff</th>
-            <th scope="col" onclick="colSort('effR')">EffRes</th>
-            <th scope="col" onclick="colSort('gs')">Score</th>
+            <th class='typecol'>Type</th>
+            <th scope="col" onclick="colSort('atkP', '{{ boardType }}')">Atk%</th>
+            <th scope="col" onclick="colSort('atkF', '{{ boardType }}')">Atk</th>
+            <th scope="col" onclick="colSort('defP', '{{ boardType }}')">Def%</th>
+            <th scope="col" onclick="colSort('defF', '{{ boardType }}')">Def</th>
+            <th scope="col" onclick="colSort('hpP',  '{{ boardType }}')">Hp%</th>
+            <th scope="col" onclick="colSort('hpF',  '{{ boardType }}')">Hp</th>
+            <th scope="col" onclick="colSort('criC', '{{ boardType }}')">CritC</th>
+            <th scope="col" onclick="colSort('criD', '{{ boardType }}')">CritD</th>
+            <th scope="col" onclick="colSort('spd',  '{{ boardType }}')">Spd</th>
+            <th scope="col" onclick="colSort('eff',  '{{ boardType }}')">Eff</th>
+            <th scope="col" onclick="colSort('effR', '{{ boardType }}')">EffRes</th>
+            <th scope="col" onclick="colSort('gs',   '{{ boardType }}')">Score</th>
             <th scope="col">Username</th>
         </tr>
     </thead>

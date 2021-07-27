@@ -20,17 +20,18 @@ function colSort(col) {
     sessionStorage.setItem('isSorted', true)
     sessionStorage.setItem('lastType', col)
 
-    //Sends to app.py a JSON object with properties sortType and sortBy for ordering database.
+    //Sends to views.py a JSON object with properties methods, sortType, and sortBy for ordering database.
     fetch('/crafts', {
         method: 'POST',
         headers: {
             'Content-Type': 'application/json'
         },
-        body: JSON.stringify({'methods': ['sort'],
-                              'sortType': col,
-                              'sortBy': sessionStorage.getItem(col)
-                            })
-    })   
+        body: JSON.stringify({
+            'methods': ['sort'],
+            'sortType': col,
+            'sortBy': sessionStorage.getItem(col)
+        })
+    })
         .then(response => response.json())
         //Recieves a Response object from app.py containing an array of data from each row.
         .then(data => {

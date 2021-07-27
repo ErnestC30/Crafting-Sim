@@ -4,6 +4,7 @@ from . import db
 from werkzeug.security import generate_password_hash, check_password_hash
 from flask_login import login_user, login_required, logout_user, current_user
 from datetime import date
+from sqlalchemy import func
 
 views = Blueprint('views', __name__)
 
@@ -62,16 +63,41 @@ def crafts():
             
     return render_template("crafts.html", saved_equips=saved_equips, user=current_user)
 
-@views.route('/leaderboard', methods=["POST", "GET"])
-def leaderboard():
-    #TO DO:
-    #Datetime added to equipments database to track time
-    #Two leaderboards? One for daily, one for overall
-    #Click on column to sort by column (can use similar code from crafts.js)
+@views.route('/leaderboard')
+def reroute():
+    return redirect(url_for('views.leaderboard', boardType='overall'))
 
-    saved_equips = EquipDB.query.order_by(EquipDB.getAttribute('gs').desc()).limit(10)
+@views.route('/leaderboard/<boardType>', methods=["POST", "GET"])
+def leaderboard(boardType):
+    #Default sorting order to gear score
+    colType = 'gs'
+    MAXEQUIP = 15
+    ordered_equips = []
 
-    return render_template("leaderboard.html", saved_equips=saved_equips, user=current_user)
+    if request.method == "POST":
+        colType = request.get_json()['sortType']
+        if boardType == 'daily':
+            equips = EquipDB.query.order_by(EquipDB.getAttribute(colType).desc()).filter(func.date(EquipDB.date)==date.today()).limit(MAXEQUIP)
+
+        elif boardType == 'overall':
+            equips = EquipDB.query.order_by(EquipDB.getAttribute(colType).desc()).limit(MAXEQUIP)
+
+        for equip in equips:
+            ordered_equips.append(equip.toJson())
+        return jsonify(ordered_equips)
+
+    if boardType == 'daily':
+        saved_equips = EquipDB.query.order_by(EquipDB.getAttribute(colType).desc()).filter(func.date(EquipDB.date)==date.today()).limit(MAXEQUIP)
+
+    elif boardType == 'overall':
+        saved_equips = EquipDB.query.order_by(EquipDB.getAttribute(colType).desc()).limit(MAXEQUIP)
+
+    #Error Handling
+    else:
+        return redirect(url_for('views.home'))
+
+    return render_template("leaderboard.html", saved_equips=saved_equips, user=current_user, boardType=boardType)
+    
 
 @views.route('/register', methods=["POST", "GET"])
 def register():
@@ -81,7 +107,7 @@ def register():
         pw = request.form['pw']
         pw2 = request.form['pw2']
 
-        #Form error handling
+        #Form error handling.
         if len(name) == 0 or len(pw) == 0 or len(pw2) == 0:
             flash('Please fill in all fields.', category='error')
         elif len(name) < 3:
@@ -91,13 +117,13 @@ def register():
         elif pw != pw2: 
             flash('Passwords do not match each other!', category='error')
         else:
-            #Check if username already taken
+            #Check if username already.
             check_user = User.query.filter_by(name=name).first()
             if check_user:
                 flash('Account name is already taken!', category='error')
 
             else: 
-                #Create account into database here.
+                #Create account and add to database.
                 newUser = User(name=name, pw=generate_password_hash(pw, method='sha256'))
                 db.session.add(newUser)
                 db.session.commit()
@@ -117,9 +143,9 @@ def login():
         
         user = User.query.filter_by(name=name).first()
         if user:
-        #Check password
+        #Check if password matches database hashed password.
             if check_password_hash(user.pw, pw):
-                #Redirect to home page and log user to flask_login
+                #Redirect to home page and log user to flask_login.
                 login_user(user, remember=True)
                 flash(f'You are now logged in, {user.name}', category='success')
                 return redirect(url_for('views.home'))
