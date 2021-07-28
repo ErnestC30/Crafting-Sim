@@ -1,9 +1,18 @@
 {% extends "base.html" %}
 {% block title %}Home Page{% endblock %}
+{% block head %} 
+<link rel="stylesheet" href="{{ url_for('static', filename='home.css') }}">
+{% endblock %}
 {% block content %} 
-<h1>Epic Crafting Simulation</h1>
-<p>Test your RNG</p>
+<div class="flexbox-container">
+<h1>Epic 7 Crafting Simulation</h1>
 {% if user.is_authenticated %}
 <p>Welcome {{ user.name }}</p>
+{% else %} 
+<p>Login to start crafting.</p>
 {% endif %}
+<p>Test your RNG with this crafting simulator.</p>
+<p>Craft equipment in the crafting section.</p>
+<p>View your crafts, and compare them with others in the leaderboard.</p>
+</div>
 {% endblock %}

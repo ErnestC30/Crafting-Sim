@@ -28,3 +28,7 @@ td {
     color: #fff;
     border-color: #373b3e;
 }
+
+.header:hover {
+    color: #20c070
+}

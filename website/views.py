@@ -18,7 +18,7 @@ def home():
 @login_required
 def crafting():
     if request.method == "POST":
-        print("Equipment information recieved.")
+        #print("Equipment information recieved.")
         #Retrieve the equipment JSON file and parse into object notation.
         equip = request.get_json()
 
@@ -26,7 +26,7 @@ def crafting():
         equipment = EquipDB(equip, current_user.name, date.today())
         db.session.add(equipment)
         db.session.commit()
-        print('Equipment information added to database.')
+        #print('Equipment information added to database.')
         return 'OK', 200
     else:
         return render_template("crafting.html", user=current_user)
@@ -71,7 +71,7 @@ def reroute():
 def leaderboard(boardType):
     #Default sorting order to gear score
     colType = 'gs'
-    MAXEQUIP = 15
+    MAXEQUIP = 20
     ordered_equips = []
 
     if request.method == "POST":

@@ -23,7 +23,7 @@ function colSort(col, boardType) {
 }
 
 function updateTable(data, tableID) {
-    console.log(data)
+    //console.log(data)
     table = document.getElementById(tableID)
     for(i=0;i<data.length;i++){
         //For each object (row)... update HTML
