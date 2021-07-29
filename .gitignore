@@ -3,3 +3,4 @@ __pycache__/
 env/
 *.pyc
 equip.sqlite3
+website/__pycache__/
