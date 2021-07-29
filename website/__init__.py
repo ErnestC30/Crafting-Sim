@@ -1,20 +1,21 @@
 from flask import Flask
 from flask_sqlalchemy import SQLAlchemy
-from os import path
 from flask_login import LoginManager
+from dotenv import load_dotenv
+import os
 
 db = SQLAlchemy()
 DB_NAME = "equip.sqlite3"
+load_dotenv()
 
 def create_app(): 
     app = Flask(__name__)
 
     #Initialize and configure Database objects 
-    app.config['SECRET_KEY'] = 'very-epic'
+    app.config['SECRET_KEY'] = os.getenv('FLASK_KEY')
     app.config['SQLALCHEMY_DATABASE_URI'] = f'sqlite:///{DB_NAME}'
     app.config['SQLALCHEMY_TRACK_MODIFICATIONS'] = False
     db.init_app(app)
-
 
     from .views import views
     app.register_blueprint(views, url_prefix='/')
@@ -34,6 +35,6 @@ def create_app():
     return app
 
 def create_database(app):
-    if not path.exists('website/' + DB_NAME):
+    if not os.path.exists('website/' + DB_NAME):
         db.create_all(app=app)
         print('Created Database!')
