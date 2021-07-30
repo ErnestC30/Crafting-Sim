@@ -45,7 +45,7 @@ def crafts():
             rowID = request.get_json()['rowToDelete']
             EquipDB.query.filter_by(userName=current_user.name).filter(EquipDB.id == rowID).delete()
             db.session.commit()
-            equips = EquipDB.query.all()
+            equips = EquipDB.query.filter_by(userName=current_user.name).all()
             
         #Sorts the table in ascending/descending order.
         if 'sort' in request.get_json()['methods']:
