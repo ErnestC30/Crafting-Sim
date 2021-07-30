@@ -13,7 +13,7 @@ views = Blueprint('views', __name__)
 def home():
     return render_template("home.html", user=current_user)
 
-#Page for users to create equipment.
+#Page for users to create and save equipment.
 @views.route('/crafting', methods=["POST", "GET"])
 @login_required
 def crafting():
