@@ -180,25 +180,25 @@ function craft(){
     equip = new Equipment();
     stats = equip.getStats();
     //Display image of equipment type
-    let equipImg = document.createElement('img');
+    let equipImg = document.createElement("img");
     switch(equip.getType()){
         case 'Weapon':
-            equipImg.src = 'website/static/images/weapon.png'
+            equipImg.src = "./static/images/weapon.png"
             break;
         case 'Helmet':
-            equipImg.src = 'website/static/images/helmet.png'
+            equipImg.src = "./static/images/helmet.png"
             break;
         case 'Body Armor':
-            equipImg.src = 'website/static/images/body_armor.png'
+            equipImg.src = "./static/images/body_armor.png"
             break;
         case 'Necklace':
-            equipImg.src = './static/images/necklace.png'
+            equipImg.src = "./static/images/necklace.png"
             break;
         case 'Ring':
-            equipImg.src = './static/images/ring.png'
+            equipImg.src = "./static/images/ring.png"
             break;
         case 'Boot':
-            equipImg.src = './static/images/boot.png'
+            equipImg.src = "./static/images/boot.png"
             break;
     }
     document.getElementById('display_type').src = equipImg.src
