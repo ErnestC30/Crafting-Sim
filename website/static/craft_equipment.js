@@ -183,13 +183,13 @@ function craft(){
     let equipImg = document.createElement('img');
     switch(equip.getType()){
         case 'Weapon':
-            equipImg.src = './static/images/weapon.png'
+            equipImg.src = 'website/static/images/weapon.png'
             break;
         case 'Helmet':
-            equipImg.src = './static/images/helmet.png'
+            equipImg.src = 'website/static/images/helmet.png'
             break;
         case 'Body Armor':
-            equipImg.src = './static/images/body_armor.png'
+            equipImg.src = 'website/static/images/body_armor.png'
             break;
         case 'Necklace':
             equipImg.src = './static/images/necklace.png'
