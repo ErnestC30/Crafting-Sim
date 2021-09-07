@@ -13,4 +13,8 @@ There is sorting functionality enabled in the tables to sort by any stat or the 
 There is also a leaderboard section where the user can view other user's crafts and compare stats.
 
 There is also a working demo at: https://e7craftingsim.herokuapp.com/
-Note: Images do not seem to load properly on heroku.
+Note: Images do not seem to load properly on heroku since images do not work on the deployment server.
+
+**Sample Images**
+
+
