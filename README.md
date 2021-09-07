@@ -16,5 +16,9 @@ There is also a working demo at: https://e7craftingsim.herokuapp.com/
 Note: Images do not seem to load properly on heroku since images do not work on the deployment server.
 
 **Sample Images**
-
-
+Crafting Tab
+![Crafting Image](https://github.com/ErnestC30/Crafting-Sim/blob/master/sample_images/sample1.PNG)
+View Crafts Tab
+![View Crafts Image](https://github.com/ErnestC30/Crafting-Sim/blob/master/sample_images/sample2.png)
+Leaderboards Tab
+![Leaderboards Image](https://github.com/ErnestC30/Crafting-Sim/blob/master/sample_images/sample3.PNG)
