@@ -13,6 +13,7 @@ The user can view their own crafts, and delete if desired.
 There is sorting functionality enabled in the tables to sort by any stat or the equipment's gear score (measurement of how well the stats rolled)
 There is also a leaderboard section where the user can view other user's crafts and compare stats.
 
+The website can be run on a development server using `python main.py`
 There is also a working demo at: https://e7craftingsim.herokuapp.com/
 Note: Images do not seem to load properly on heroku since images do not work on the deployment server.
 
